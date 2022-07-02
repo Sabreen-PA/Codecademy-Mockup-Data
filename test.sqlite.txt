@@ -1,0 +1,132 @@
+//selecting 20 records from users table
+
+SELECT *
+FROM users
+LIMIT 20;
+
+//selecting 20 records from progress table
+ 
+SELECT *
+FROM progress
+LIMIT 20;
+
+//selecting 25 top schools
+
+SELECT email_domain, COUNT(*) AS 'No of students' FROM users GROUP BY 1
+ORDER BY 2 DESC
+LIMIT 25;
+
+// No. of learners in New York city
+
+SELECT COUNT(*) AS 'No of students in New York city' FROM users WHERE city='New York';
+
+//No. of leraners using mobile-app
+
+SELECT COUNT(*) AS 'No of mobile app users' FROM users WHERE mobile_app='mobile-user';
+
+// Testing function strftime 
+
+SELECT sign_up_at,
+strftime('%S', sign_up_at)
+FROM users
+GROUP BY 1
+LIMIT 20;
+
+//Sign up counts for each hour using strftime function
+
+SELECT strftime('%H', sign_up_at), COUNT(*) AS 'No of sign ups'
+FROM users
+GROUP BY 1;
+
+//Joining user table and progress table
+
+SELECT 
+users.user_id,
+users.email_domain,
+users.country,
+users.city, 
+progress.learn_cpp,
+progress.learn_sql,
+progress.learn_html,
+progress.learn_javascript,
+progress.learn_java
+ FROM users JOIN progress ON users.user_id=progress.user_id LIMIT 25;
+
+//Finding the no. of cpp learners in schools
+
+  SELECT 
+users.email_domain,
+COUNT (*) AS 'No.of cpp learners in schools'
+ FROM users JOIN progress ON users.user_id=progress.user_id
+ WHERE progress.learn_cpp != '' 
+ GROUP BY 1
+ ORDER BY 2 DESC;
+
+//Finding the no. of sql learners in schools
+
+
+  SELECT 
+users.email_domain,
+COUNT (*) AS 'No.of SQL learners in schools'
+ FROM users JOIN progress ON users.user_id=progress.user_id
+ WHERE progress.learn_sql != ''
+ GROUP BY 1
+ ORDER BY 2 DESC;
+
+//Finding the no. of html learners in schools
+
+  SELECT 
+users.email_domain,
+COUNT (*)  AS 'No.of HTML learners in schools'
+ FROM users JOIN progress ON users.user_id=progress.user_id
+ WHERE progress.learn_html != ''
+ GROUP BY 1
+ ORDER BY 2 DESC;
+
+//Finding the no. of javascript learners in schools
+
+  SELECT 
+users.email_domain,
+COUNT (*)  AS 'No.of JavaScript learners in schools'
+ FROM users JOIN progress ON users.user_id=progress.user_id
+ WHERE progress.learn_javascript!=''
+ GROUP BY 1
+ ORDER BY 2 DESC;
+
+//Finding the no. of java learners in school
+
+ SELECT 
+users.email_domain,
+COUNT (*) AS 'No.of Java learners in schools'
+ FROM users JOIN progress ON users.user_id=progress.user_id
+ WHERE progress.learn_java!=''
+ GROUP BY 1
+ ORDER BY 2 DESC;
+
+// courses New York students taking
+
+ SELECT users.user_id,
+ users.email_domain,
+  users.city,
+  progress.learn_cpp,
+  progress.learn_sql,
+  progress.learn_html,
+  progress.learn_javascript,
+  progress.learn_java 
+  FROM users JOIN progress
+  ON users.user_id=progress.user_id
+  WHERE users.city='New York';
+
+// courses Chicago students taking
+
+   SELECT users.user_id,
+ users.email_domain,
+  users.city,
+  progress.learn_cpp,
+  progress.learn_sql,
+  progress.learn_html,
+  progress.learn_javascript,
+  progress.learn_java 
+  FROM users JOIN progress
+  ON users.user_id=progress.user_id
+  WHERE users.city='Chicago';
